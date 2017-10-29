@@ -1,0 +1,1 @@
+web: java -jar target/gs-mysql-data-0.1.0.jar
