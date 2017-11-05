@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Pagamento</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="http://dev.moip.com.br/stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="http://dev.moip.com.br/stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//assets.moip.com.br/v2/moip.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <style>
+    	.principal {
+    		width: 940px;
+    		margin-left: 90px;
+    		margin-top: 100px;
+    	}
+    	.products {
+    		width: 940px;
+    	}
+    	.lista {
+    		padding: 30px;
+    		width: 600px;
+    		margin-left: 160px;
+    	}
+    	.title {
+    		text-align: center;
+    		width: 940px;
+    	}
+    	.theader {
+    		
+    	}
+    	.tcell {
+    		padding:4px;
+    	}
+    	.btCentral {
+    		margin-left: 310px;
+    		margin-top: 50px;
+    	}
+    	.textoCentral {
+    		margin-left: 310px;
+    	}
+    </style>
+</head>
+<body class="principal">
+	<section class="title">
+		<h1>Finalizar Pedido</h1>
+	</section>
+	
+	<div class="products">
+    	<table border="1" class="lista" >
+    		<thead>
+    			<tr class="theader">
+      				<th width="60%">Item</th>
+      				<th width="20%">Quantidade</th>
+      				<th width="20%">Preço (R$)</th>
+    			</tr>
+  			</thead>
+  			<tbody>
+    		<tr th:each="pedidoitem: ${pedido.itens}">
+    			<td class="tcell" th:text="${pedidoitem.item.nome}"></td>
+    			<td class="tcell" align="right" th:text="${pedidoitem.quantidade}"></td>
+    			<td class="tcell" align="right" th:text="${#numbers.formatDecimal(pedidoitem.subTotalCalculado, 1, 'POINT', 2, 'COMMA')}"></td>
+    		</tr>
+    		</tbody>
+    		<tfoot>
+    			<tr>
+    				<td class="tcell" align="right" colspan="2">Descontos:</td>
+    				<td class="tcell" align="right" th:text="${#numbers.formatDecimal(pedido.descontoCalculado, 1, 'POINT', 2, 'COMMA')}"></td>
+    			</tr>
+    			<tr>
+    				<td class="tcell" align="right" colspan="2">Acréscimos:</td>
+    				<td class="tcell" align="right" th:text="${#numbers.formatDecimal(pedido.acrescimoCalculado, 1, 'POINT', 2, 'COMMA')}"></td>
+    			</tr>
+    			<tr>
+    				<td class="tcell" align="right" colspan="2"><strong>Total:</strong></td>
+    				<td class="tcell" align="right"><strong th:text="${#numbers.formatDecimal(pedido.totalCalculado, 1, 'POINT', 2, 'COMMA')}"></strong></td>
+    			</tr>
+    		</tfoot>
+    	</table>
+ 	</div>
+
+	<section class="dadosConfirmacao">
+		<div class="row">
+			<div class="col-md-4">
+				<input type="button" value="Confirmar Pedido!" id="confirmar" class="btn btn-lg btn-primary btn-block btCentral" />
+				<br/>
+			</div>
+			<form id="endForm">
+				<input type="hidden" name="pedidoId" id="pedidoId" th:value="${pedido.id}" /> 
+				<input type="hidden" name="pagamentoId" id="pagamentoId" th:value="${pagamento.id}" />
+			</form>
+		</div>
+		
+		<span class="textoCentral text-info" id="msg"></span>
+        <br/>
+        <span class="textoCentral text-info" id="msg2"></span>
+	</section>
+</body>
+
+<script>
+	$(document).ready(function() {
+		$("#confirmar").click(function() {
+			$("#confirmar").prop("disabled",true);
+			$("#confirmar").prop("value","Enviando...");
+			
+			$.ajax({
+				type: "POST",
+				url: '/checkout/confirm',
+				data:$("#endForm").serialize(),
+				success: function (data) {	
+					$("#confirmar").prop("value","Obrigado!");
+					$('#msg').html("Processando pagamento, aguarde...");
+					intervalName = setInterval(verificaPagamento, 1500);
+				},
+				error: function(jqXHR, text, error){
+					$("#confirmar").prop("disabled",false);
+					alert("erro! " + error);
+		        }
+		    });
+		});
+	});
+
+
+	var verificaPagamento = function() {
+		$.ajax({
+			type: 'GET',
+			url: '/checkout/verify',
+			data: {pagamentoId:$("#pagamentoId").val() },
+		  	success: function(response){
+		   		if (response=="AUTORIZADO") {
+		   			clearInterval(intervalName);
+		   			$('#msg').html("Pagamento autorizado!");   
+		   			$('#msg2').html("Seu pedido será enviado em até 3 dias úteis.");
+		   		}
+		   		else {
+		   			$('#msg').html("Status: " + response);	
+		   		}
+		  	},
+		  	error: function(jqXHR, text, error){
+		  		clearInterval(intervalName);
+		  		$('#msg').html("");
+				alert("erro ao verificar pagamento! " + text);
+	        }
+		});
+	};
+	
+</script>
+</html>
+
