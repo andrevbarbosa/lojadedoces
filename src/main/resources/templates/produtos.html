@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Produtos</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+    	.principal {
+    		width: 940px;
+    		margin-left: 90px;
+    		margin-top: 100px;
+    	}
+    	.products {
+    		width: 940px;
+    	}
+    	.item {
+    		padding: 30px;
+    	}
+    	.title {
+    		text-align: center;
+    		width: 940px;
+    	}
+    </style>
+</head>
+<body class="principal">
+	<section class="title">
+		<h1>Lista de Produtos da Loja de Doces</h1>
+		<h4 id="cart" th:attr="cartid=${cartId}"> <a th:href="@{'/cart/show?cartId=' + ${cartId}}">Carrinho - <span th:text="${qtdItensCart}"></span></a></h4>
+	</section>
+	
+	<div class="products">
+    	<div class="item" th:each="prod: ${itens}">
+    		<h2 th:text="${prod.nome}"></h2>
+    		<h3 th:text="${prod.detalhes}"></h3>
+    		<h3>R$ <span th:text="${#numbers.formatDecimal(prod.precoCalculado, 1, 'POINT', 2, 'COMMA')}"></span></h3>
+    		
+    		<form action="/cart/additem" method="POST"> 
+    		<input type="submit" value="Adicionar ao carrinho"/>
+    		<input type="hidden" name="itemId" th:value="${prod.id}"/>
+    		<input type="hidden" name="cartId" th:value="${cartId}"/>
+    		</form>
+    	</div >
+ 	</div>
+</body>
+
+<script>
+
+</script>
+</html>
+

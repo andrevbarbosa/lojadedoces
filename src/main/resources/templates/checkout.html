@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Pagamento</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="http://dev.moip.com.br/stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="http://dev.moip.com.br/stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//assets.moip.com.br/v2/moip.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <style>
+    	.principal {
+    		width: 940px;
+    		margin-left: 90px;
+    		margin-top: 100px;
+    	}
+    	.products {
+    		width: 940px;
+    	}
+    	.lista {
+    		padding: 30px;
+    		width: 600px;
+    		margin-left: 160px;
+    	}
+    	.title {
+    		text-align: center;
+    		width: 940px;
+    	}
+    	.theader {
+    		
+    	}
+    	.tcell {
+    		padding:4px;
+    	}
+    </style>
+</head>
+<body class="principal">
+	<section class="title">
+		<h1>Finalizar Pedido</h1>
+	</section>
+	
+	<div class="products">
+    	<table border="1" class="lista" >
+    		<thead>
+    			<tr class="theader">
+      				<th width="60%">Item</th>
+      				<th width="20%">Quantidade</th>
+      				<th width="20%">Preço (R$)</th>
+    			</tr>
+  			</thead>
+  			<tbody>
+    		<tr th:each="cartitem: ${cart.itens}">
+    			<td class="tcell" th:text="${cartitem.item.nome}"></td>
+    			<td class="tcell" align="right" th:text="${cartitem.quantidade}"></td>
+    			<td class="tcell" align="right" th:text="${#numbers.formatDecimal(cartitem.subTotalCalculado, 1, 'POINT', 2, 'COMMA')}"></td>
+    		</tr>
+    		</tbody>
+    	</table>
+ 	</div>
+ 	
+ 	<section class="dadosPagamento">
+		
+		<div class="row">
+        	<hr/>
+  			<div class="col-md-2"></div>
+  			<div class="col-md-8">
+  				<div class="row">
+  					<div class="col-md-4">
+  			    		<label>Número do cartão</label>
+        				<input type="text" placeholder="Cartao de Credito" id="number"  class="form-control"/><br/>
+        			</div>
+        			<div class="col-md-4">
+        				<label>CVC</label>
+        				<input type="text" placeholder="CVC" id="cvc" class="form-control"/><br/>
+        			</div>
+        		</div>
+        		<div class="row">
+            		<div class="col-md-4">        
+            			<label>Mês de expiração (MM)</label>
+        				<input type="text" placeholder="Mes" id="month" class="form-control"/><br/>
+        			</div>
+            		<div class="col-md-4">
+                    	<label>Ano de expiração (AA)</label>
+                    	<input type="text" placeholder="Ano" id="year"  class="form-control" /><br/>
+                    </div>
+            		<div class="col-md-4"></div>
+        		</div>
+	  			<input type="hidden" id="public_key" value="-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg2Em4RcRFGIUmaQyFyun
+cqnkbhb3nIiT/pDCa384LaeUbPnPBKS2i3H/q+tUpx9EuOUgYEfM2ZAi7xqAZh+h
+xL9qBdH5C5RbzM2GuPcU29hO1EjkEbGj+AnrAL5tZiIJxPOWIdVEzI1kPu6XUO0u
+saGViceBuuc8Ks8dkxn00jHQIexEgVTiKLVPQm/cW67CXkUn2++BcyD3csiVIxKW
+BJJTfGeDJHv/QbVqGO4e1HAsIewykdF0dcHPcoIzrHBLPS2SPTkHOn9I4xJvci5N
+gIwEcTkA2K9L0HpsyxG1soYMuDhoqkk97hxGdIkJBjB9Z2p1JMW/S3EO+9Xw5BI5
+sQIDAQAB
+-----END PUBLIC KEY-----"/>
+  				
+	  			<form action="/payment/add" id="target" class="form-signin" method="POST">	
+	  				<div class="row">
+	  					<div class="col-md-4">
+	  						<label>Numero de Parcelas:</label>
+	  						<select name="parcelas" class="form-control">
+    							<option value="1">1</option>
+    							<option value="2">2</option>
+    							<option value="3">3</option>
+    							<option value="4">4</option>
+    							<option value="5">5</option>
+    							<option value="6">6</option>
+  							</select>
+  						</div>
+  						<div class="col-md-4">
+  							<label>Código Promocional:</label>
+  							<input type="text" placeholder="Codigo Promocional" id="cupom" name="cupom" class="form-control" /><br/>
+                    	</div>
+                    </div>
+  					<br/>
+               		<input type="hidden" id="encrypted_value" name="hashCC" value=""/>
+	  				<input type="hidden" name="cartId" th:value="${cart.id}"/>
+        			<input type="button" value="Confirmar" id="finalizar" class="btn btn-lg btn-primary btn-block"/>
+      			</form>
+  			</div>
+		</div>		 	
+	</section>
+</body>
+
+<script>
+$(document).ready(function() {
+    $("#finalizar").click(function() {
+      var cc = new Moip.CreditCard({
+        number  : $("#number").val(),
+        cvc     : $("#cvc").val(),
+        expMonth: $("#month").val(),
+        expYear : $("#year").val(),
+        pubKey  : $("#public_key").val()
+      });
+
+      if( cc.isValid()){
+        $("#encrypted_value").val(cc.hash());
+        $("#card_type").val(cc.cardType());
+      }
+      else{
+        $("#encrypted_value").val('');
+        $("#card_type").val('');
+        alert('Cartao de Credito inválido!');
+        return;
+      }
+      
+      $( "#target" ).submit();
+    });
+});
+
+
+</script>
+</html>
+

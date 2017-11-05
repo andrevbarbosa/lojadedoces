@@ -3,10 +3,10 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.springframework</groupId>
-    <artifactId>gs-mysql-data</artifactId>
-    <version>0.1.0</version>
-
+  <groupId>lojadedoces</groupId>
+  <artifactId>lojadedoces</artifactId>
+  <version>1.0.0</version>
+  
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -19,14 +19,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         
-        <!-- JPA Data (We are going to use Repositories, Entities, Hibernate, etc...) -->
-        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        
-        <!-- Use MySQL Connector-J -->
         
         <dependency>
             <groupId>mysql</groupId>
@@ -35,9 +31,32 @@
         
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        
+		<dependency>
+    		<groupId>org.springframework.data</groupId>
+    		<artifactId>spring-data-jpa</artifactId>
+    	</dependency>
+        
+        
+		<dependency>
+    		<groupId>br.com.moip</groupId>
+    		<artifactId>java-sdk</artifactId>
+    		<version>3.2.0</version>
+		</dependency>
     </dependencies>
 
     <properties>
