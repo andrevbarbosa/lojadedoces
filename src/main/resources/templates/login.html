@@ -3,14 +3,29 @@
 <head> 
     <title>Login</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//assets.moip.com.br/v2/moip.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+     
+    <style type="text/css">
+    	.login {
+    		max-width: 200px;
+    		margin-left: 400px;
+    		margin-top: 200px;
+    	}
+    </style> 
 </head>
 <body>
-	<h3>Login</h3>
-    <form action="/" th:action="@{/}" method="post">
-    	<label for="email">email:</label>
-        <input type="email" name="email" th:value="${email}"/>
-        <input type="submit" />
-    </form>
+	<section class="login">
+		<h3>Login</h3>
+    	<form action="/" th:action="@{/}" method="post">
+    		<label for="email">email:</label>
+        	<input type="email" name="email" th:value="${email}"/><br/>
+        	<input type="submit" value="Entrar" class="btn btn-lg btn-primary btn-block"/>
+    	</form>
+    </section>
 </body>
 </html>
 

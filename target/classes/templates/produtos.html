@@ -3,7 +3,12 @@
 <head> 
     <title>Produtos</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//assets.moip.com.br/v2/moip.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
     <style>
     	.principal {
     		width: 940px;
@@ -14,7 +19,7 @@
     		width: 940px;
     	}
     	.item {
-    		padding: 30px;
+    		padding: 15px;
     	}
     	.title {
     		text-align: center;
@@ -30,12 +35,13 @@
 	
 	<div class="products">
     	<div class="item" th:each="prod: ${itens}">
+    		<hr/>
     		<h2 th:text="${prod.nome}"></h2>
-    		<h3 th:text="${prod.detalhes}"></h3>
+    		<h4 th:text="${prod.detalhes}"></h4>
     		<h3>R$ <span th:text="${#numbers.formatDecimal(prod.precoCalculado, 1, 'POINT', 2, 'COMMA')}"></span></h3>
     		
     		<form action="/cart/additem" method="POST"> 
-    		<input type="submit" value="Adicionar ao carrinho"/>
+    		<input type="submit" value="Adicionar ao carrinho" class="btn btn-lg btn-primary"/>
     		<input type="hidden" name="itemId" th:value="${prod.id}"/>
     		<input type="hidden" name="cartId" th:value="${cartId}"/>
     		</form>

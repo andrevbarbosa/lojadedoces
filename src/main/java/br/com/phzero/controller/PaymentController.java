@@ -33,11 +33,6 @@ public class PaymentController {
 	@Autowired
 	private CartService cartService;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public String index() {
-		return "loja";
-	}
-	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView addPaymentData(@RequestParam(value="cartId", required=true) Integer cartId,
 			@RequestParam(value="hashCC", required=true) String hashCC,
@@ -90,8 +85,6 @@ public class PaymentController {
 		
 		return new ModelAndView("confirmacao", m);
 	}
-	
-	// webhooks
 }
 
 

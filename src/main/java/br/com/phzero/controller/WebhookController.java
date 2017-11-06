@@ -27,7 +27,6 @@ public class WebhookController {
 	@ResponseStatus(OK)
 	public void save(@RequestBody final WebhookResource webhook) {
     	
-    	//System.out.println("webhook \n" + webhook.getEvent());
     	System.out.println(webhook.getResource().getPayment());
     	
     	String moipId = webhook.getResource().getPayment().getId();

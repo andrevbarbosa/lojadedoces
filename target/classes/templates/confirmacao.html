@@ -130,13 +130,13 @@
 			url: '/checkout/verify',
 			data: {pagamentoId:$("#pagamentoId").val() },
 		  	success: function(response){
-		   		if (response=="AUTORIZADO") {
+		   		if (response.startsWith("AUTORIZADO")) {
 		   			clearInterval(intervalName);
-		   			$('#msg').html("Pagamento autorizado!");   
+		   			$('#msg').html("Pagamento autorizado! Código " + response.substring(13));   
 		   			$('#msg2').html("Seu pedido será enviado em até 3 dias úteis.");
 		   		}
 		   		else {
-		   			$('#msg').html("Status: " + response);	
+		   			$('#msg').html("Status do pagamento: " + response);	
 		   		}
 		  	},
 		  	error: function(jqXHR, text, error){

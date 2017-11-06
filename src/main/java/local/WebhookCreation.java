@@ -28,11 +28,14 @@ public class WebhookCreation {
 //		api.notification().delete("NPR-FCQLSCHEF5UM");
 //		
 		
-//		NotificationPreference notificationPreference = api.notification().create(
-//				  new NotificationPreferenceRequest()
-//				    .addEvent("PAYMENT.*")
-//				    .target("http://f7304439.ngrok.io/webhook/moip")
-//				);
+		NotificationPreference notificationPreference = api.notification().create(
+				  new NotificationPreferenceRequest()
+				    .addEvent("PAYMENT.*")
+				    .target("https://lojadedoces.herokuapp.com/webhook/moip")
+				);
+		
+		notificationList = api.notification().list();
+		System.out.println(notificationList);
 		
 		
 	}

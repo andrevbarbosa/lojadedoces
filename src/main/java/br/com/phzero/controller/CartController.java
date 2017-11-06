@@ -28,11 +28,6 @@ public class CartController {
 	@Autowired
 	private ItemDePedidoService itemDePedidoService;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public String index() {
-		return "loja";
-	}
-	
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
 	public ModelAndView showCart(@RequestParam(value="cartId", required=true) String cartId) {
 		Cart cart = null;
@@ -88,8 +83,6 @@ public class CartController {
 	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
 	public ModelAndView checkout(@RequestParam(value="cartId", required=true) Integer cartId) {
 		Cart cart = service.buscarCart(cartId).get();
-		
-		System.out.println(cart);
 		
 		ModelMap m = new ModelMap();
 		m.addAttribute("cart", cart);

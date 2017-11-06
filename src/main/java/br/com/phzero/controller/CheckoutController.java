@@ -28,11 +28,6 @@ public class CheckoutController {
 	@Autowired
 	private PagamentoService pagamentoService;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public String index() {
-		return "loja";
-	}
-	
 	@RequestMapping(value = "/confirm", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void addPaymentData(@RequestParam(value="pedidoId", required=true) Integer pedidoId,
@@ -53,9 +48,10 @@ public class CheckoutController {
 		
 		Pagamento pagamento = pagamentoService.buscarPagamento(pagamentoId).get();
 		
-		return "IN_ANALYSIS".equals(pagamento.getStatus())?"EM ANALISE":
+		return "CREATED".equals(pagamento.getStatus())?"GERADO":
+				"IN_ANALYSIS".equals(pagamento.getStatus())?"EM ANALISE":
 			"WAITING".equals(pagamento.getStatus())?"AGUARDANDO":
-				"AUTHORIZED".equals(pagamento.getStatus())?"AUTORIZADO":
+				"AUTHORIZED".equals(pagamento.getStatus())?"AUTORIZADO - " + pagamento.getMoipId():
 					pagamento.getStatus();
 	}
 }

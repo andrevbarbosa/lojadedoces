@@ -33,7 +33,6 @@ public class MainController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView login(@RequestParam(value="email", required=true) String email) {
-		System.out.println(email);
 		Cliente cliente = clienteService.buscarClientePorEmail(email);
 		
 		List<Item> itens = itemService.buscarTodosItems();
@@ -42,7 +41,6 @@ public class MainController {
 		m.addAttribute("idCliente", cliente.getId());
 		m.addAttribute("itens", itens);
 		m.addAttribute("qtdItensCart", "vazio");
-		//m.addAttribute("cartId", "1");
 
 		return new ModelAndView("produtos", m);
 	}
